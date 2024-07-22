@@ -99,14 +99,10 @@ FROM sales s
 WHERE s.geoid IN ('g1', 'g5');
 
 SELECT geoid, geo, MAX(sales_month), MAX(Count_of_sales) max_counts
-FROM (SELECT s.geoid,
-g.geo,
-MONTH(s.saledate) AS Sales_month,
-SUM(s.boxes) AS Count_of_sales
+FROM (SELECT s.geoid, g.geo, MONTH(s.saledate) AS Sales_month, SUM(s.boxes) AS Count_of_sales
 FROM sales s, geo g
 WHERE s.geoid=g.geoid AND s.geoid IN ('g1', 'g5')
 GROUP BY s.geoid, Sales_month
--- HAVING COUNT(*)
 ORDER BY s.geoid, Count_of_sales DESC) AS T
 GROUP BY geoid
 ORDER BY max_counts DESC
